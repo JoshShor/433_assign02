@@ -30,7 +30,15 @@ using namespace std;
  */
 int parse_command(char command[], char *args[])
 {
-    // TODO: implement this function
+    int i = 0;
+    //while the array is not empty
+    while (args[i] != NULL && (i < argv)) {
+        free(args[i]);
+        i++;
+        if (i == MAX_LINE) {
+            break;
+        }
+    }
 }
 
 // TODO: Add additional functions if you need
@@ -46,7 +54,11 @@ int main(int argc, char *argv[])
     char command[MAX_LINE];       // the command that was entered
     char *args[MAX_LINE / 2 + 1]; // parsed out command line arguments
     int should_run = 1;           /* flag to determine when to exit program */
-
+    pid_t pid;
+    int amp = 0;
+    int argv, usePipe = 0;
+    int redirect, file, pidPipe;
+    int fd[2];
     // TODO: Add additional variables for the implementation.
 
     while (should_run)
