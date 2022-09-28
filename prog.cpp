@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
           wait();                                                                                            
         }
         else if (rc == 0){
-                                                                                                                                
+           I believe the child process would be here                                                                                                                     
         }
         */
     }
