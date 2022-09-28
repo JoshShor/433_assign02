@@ -77,6 +77,18 @@ int main(int argc, char *argv[])
          * (2) the child process will invoke execvp()
          * (3) parent will invoke wait() unless command included &
          */
+    
+        /* 
+        something like this?
+        int rc = fork();
+        if (rc < 0) {
+          fprintf(stderr, "fork failed\n");
+          wait();                                                                                            
+        }
+        else if (rc == 0){
+                                                                                                                                
+        }
+        */
     }
     return 0;
 }
