@@ -90,7 +90,9 @@ int main(int argc, char *argv[])
            
         }
         else {
-            int some variable = wait(NULL);
+            if (command != '&') {
+                int somevariable = wait(NULL);
+            }
         }
         */
     }
