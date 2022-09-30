@@ -79,14 +79,18 @@ int main(int argc, char *argv[])
          */
     
         /* 
-        something like this?
+        something like this? This is all based on the Processes lecture slides, particulary the examples like forking example p3.c. It might be off but
+        it's a start. 
         int rc = fork();
         if (rc < 0) {
-          fprintf(stderr, "fork failed\n");
-          wait();                                                                                            
+          fprintf(stderr, "fork failed\n");                                                                                            
         }
-        else if (rc == 0){
-           I believe the child process would be here                                                                                                                     
+        else if (rc == 0){ I believe the child process would be here
+           execpv(command, args); not sure if those arguments are correct. 
+           
+        }
+        else {
+            int some variable = wait(NULL);
         }
         */
     }
