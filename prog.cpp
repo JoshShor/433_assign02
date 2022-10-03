@@ -86,6 +86,12 @@ int main(int argc, char *argv[])
           fprintf(stderr, "fork failed\n");                                                                                            
         }
         else if (rc == 0){ I believe the child process would be here
+           //put history feature here in an if statement
+           if (command == '!!') {
+            // base code off of code from discord here
+            }
+           
+           //use parse command here?
            execpv(command, args); not sure if those arguments are correct. 
            
         }
