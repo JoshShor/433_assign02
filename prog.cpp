@@ -16,8 +16,9 @@
 #include <sys/types.h> 
 #include <sys/wait.h>
 
-#include <sys/stat.h>
 #include <string.h>
+#include <sys/stat.h>
+
 
 using namespace std;
 
@@ -29,6 +30,24 @@ bool isLess, isGreater , isAnd = false; //Verify less than, greater ehan and & s
 int num_args = 0;
 char hist[MAX_LINE],hist2[MAX_LINE]; //History used when typing  !!.
 
+
+/**
+ * Set flags base on param
+ * 
+ */ 
+void setFlags(char *params){
+	switch(params){
+		case '>':
+			isGreater = true; 
+			break;
+		case '&':
+			 isAnd = true; 
+			 break;
+		 case '<':
+		 	 isLess = true; 
+		 	 break;
+		 	}
+}
 /**
  * @brief parse out the command and arguments from the input command separated by spaces
  *
@@ -38,23 +57,18 @@ char hist[MAX_LINE],hist2[MAX_LINE]; //History used when typing  !!.
  */
 int parse_command(char command[], char *args[]) {
   int num_args = 0; 
-  char *params = strtok(command, " "); //This function breaks down strings into paramss, it looks for a " " character and thats when it knows when to stop. 
+  char *params = strtok(command, " "); //parses the command with " " to params array. 
   while (params != NULL) {
-    if(strcmp(params,">") == 0) { //checks Verify > in the command
-      isGreater = true; 
-    }else if(strcmp(params,"&") == 0) { //Checks Verifyn & in the command
-      isAnd = true; 
-    }else if(strcmp(params,"<") == 0) { //checks Verify < in the command
-      isLess = true; 
-    }
+    setFlags(params);
     
-    args[num_args] = params; //will put the parsed params into the args[] array.
-    params = strtok(NULL, " "); //This will start from the begniing of the string, and go to the first whitespace deleting it so the paramss are correct. 
+    args[num_args] = params; //Add thes params into the args array
+    params = strtok(NULL, " "); //reset the params 
     num_args++;
   }
   args[num_args] = params; //puts the last params into the args array. 
   return num_args;
 }
+
 
 /*
 * reset the flags
