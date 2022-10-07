@@ -36,17 +36,13 @@ char hist[MAX_LINE],hist2[MAX_LINE]; //History used when typing  !!.
  * 
  */ 
 void setFlags(char *params){
-	switch(params){
-		case '>':
-			isGreater = true; 
-			break;
-		case '&':
-			 isAnd = true; 
-			 break;
-		 case '<':
-		 	 isLess = true; 
-		 	 break;
-		 	}
+	 if(strcmp(params,">") == 0) { //Verify if param is >
+		isGreater = true; 
+	}else if(strcmp(params,"&") == 0){//Verify if param is &
+		 isAnd = true; 
+	}else if(strcmp(params,"<") == 0) {//Verify if param is <
+	 	 isLess = true; 
+	}
 }
 /**
  * @brief parse out the command and arguments from the input command separated by spaces
@@ -106,7 +102,7 @@ void processFork(pid_t pid, char *args[]) {
 }
 
 /**
- * Process if Less Than
+ * Process if < Than
  */ 
 void processLess(char *args[]){
 	args[num_args-2] = NULL; //set the < to NULL so the command can be run
@@ -115,7 +111,7 @@ void processLess(char *args[]){
     close(inside);
 }
 /**
- * Proces if Greater than
+ * Proces if > than
  */ 
 void porcessGreater(char *args[]){
 	args[num_args-2] = NULL;
@@ -124,7 +120,7 @@ void porcessGreater(char *args[]){
   	close(outside);
 }
 /**
- * Processs if And set to null
+ * Processs if & set to null
  */ 
 void processAnd(char *args[]){
 	args[num_args-1] = NULL;
