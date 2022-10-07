@@ -56,7 +56,7 @@ int parse_command(char command[], char *args[]) {
   char *params = strtok(command, " "); //parses the command with " " to params array. 
   while (params != NULL) {
     setFlags(params);
-    
+
     args[num_args] = params; //Add thes params into the args array
     params = strtok(NULL, " "); //reset the params 
     num_args++;
@@ -70,9 +70,9 @@ int parse_command(char command[], char *args[]) {
 * reset the flags
 */
 void resetFlags(){
-	 isAnd = false; //resets bool
-     isLess = false; //resets bool
-     isGreater = false; //resets bool
+  isAnd = false; //resets bool
+  isLess = false; //resets bool
+  isGreater = false; //resets bool
 }
 /**
  * @brief process the fork.
@@ -82,23 +82,23 @@ void resetFlags(){
  */
 void processFork(pid_t pid, char *args[]) {
 	 
-        if (pid > 0) { //check Parent
-        	if (isAnd == true) { //Verify& in the command
-        	} else {
-            	wait(NULL); //wait 
-          	}
-        } else if (pid == 0) { //child
-           	if ((execvp(args[0], args) < 0)){ //Verify if is invalid
-            	printf("Command not found\n"); //print not found
-            	exit(1);
-        	} else {
-            	execvp(args[0], args); //if  not invalid, run the command
-            }
-        } else { //error
-          	printf("error\n" ); //print fork error
-        }
-        strcpy(hist, hist2); //copies history.
-        resetFlags();
+if (pid > 0) { //check Parent
+  if (isAnd == true) { //Verify& in the command
+  } else {
+    wait(NULL); //wait 
+  }
+} else if (pid == 0) { //child
+  if ((execvp(args[0], args) < 0)){ //Verify if is invalid
+    printf("Command not found\n"); //print not found
+    exit(1);
+  } else {
+    execvp(args[0], args); //if  not invalid, run the command
+    }
+} else { //error
+    printf("error\n" ); //print fork error
+}
+strcpy(hist, hist2); //copies history.
+resetFlags();
 }
 
 /**
@@ -114,10 +114,10 @@ void processLess(char *args[]){
  * Proces if > than
  */ 
 void porcessGreater(char *args[]){
-	args[num_args-2] = NULL;
-  	int outside = open(args[num_args-1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
-  	dup2(outside, STDOUT_FILENO);
-  	close(outside);
+  args[num_args-2] = NULL;
+  int outside = open(args[num_args-1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+  dup2(outside, STDOUT_FILENO);
+  close(outside);
 }
 /**
  * Processs if & set to null
@@ -130,12 +130,12 @@ void processAnd(char *args[]){
  * Processs History
  */ 
 void processHistory(char *args[]){
-	if (strcmp(hist,"") == 0) { //checks if the hist is empty, prints "No command history"
-    	printf( "No command history found\n");
-  	} else {
-  		printf("%s\n", hist); // print out the history 
-    	num_args = parse_command(hist, args); //calls the parse_command function with the history as the arguments. 
-  	}
+  if (strcmp(hist,"") == 0) { //checks if the hist is empty, prints "No command history"
+    printf( "No command history found\n");
+  } else {
+    printf("%s\n", hist); // print out the history 
+    num_args = parse_command(hist, args); //calls the parse_command function with the history as the arguments. 
+  }
 }
 
 
@@ -148,44 +148,78 @@ void processHistory(char *args[]){
  */
 int main(int argc, char *argv[])
 {
-    char command[MAX_LINE];       // the command that was entered
-    char *args[MAX_LINE / 2 + 1]; // parsed out command line arguments
-    int should_run = 1;           /* flag to determine when to exit program */
-    // Add additional variables for the implementation.   
-   
+  char command[MAX_LINE];       // the command that was entered
+  char *args[MAX_LINE / 2 + 1]; // parsed out command line arguments
+  int should_run = 1;           /* flag to determine when to exit program */
+  // Add additional variables for the implementation.   
 
-    while (should_run)
-    {
-        printf("osh>");
-        fflush(stdout);
-        pid_t pid;        
-        // Read the input command
-        fgets(command, MAX_LINE, stdin); //reads input line and puts it into command. 
-        
-        command[strcspn(command, "\n")] = 0; //Remove the newline character
-        
-        // Parse the input command
-        if (strcmp(command,"exit") == 0){ //check if input is exit
-        	should_run = 0; //ends the loop of the program
-        } 
-        
-        strcpy(hist2, command); //Adds the input command into the history 
-        
-        if (strcmp(command,"!!") == 0) { //checks if input is to show history !!
-          	processHistory(args);
-        } else {
-         	num_args = parse_command(command, args); //if input is not for history then just call the parse_command.
-        }
 
-        if (isGreater == true){ // Verify > in the command then 
-        	porcessGreater(args);
-        }else  if (isLess == true){ // Verify < in the command then 
-        	processLess(args);
-        }else if (isAnd == true) { //Verify isAnd then set the argument as Null
-        	processAnd(args);
-        }
-        pid = fork(); 
-        processFork(pid, args);
+  while (should_run)  {
+    printf("osh>");
+    fflush(stdout);
+    pid_t pid;        
+    // Read the input command
+    fgets(command, MAX_LINE, stdin); //reads input line and puts it into command. 
+
+    command[strcspn(command, "\n")] = 0; //Remove the newline character
+
+    // Parse the input command
+    if (strcmp(command,"exit") == 0){ //check if input is exit
+      should_run = 0; //ends the loop of the program
+    } 
+
+    strcpy(hist2, command); //Adds the input command into the history 
+
+    if (strcmp(command,"!!") == 0) { //checks if input is to show history !!
+        processHistory(args);
+    } else {
+      num_args = parse_command(command, args); //if input is not for history then just call the parse_command.
     }
-    return 0;
+
+    if (isGreater == true){ // Verify > in the command then 
+      porcessGreater(args);
+    }else  if (isLess == true){ // Verify < in the command then 
+      processLess(args);
+    }else if (isAnd == true) { //Verify isAnd then set the argument as Null
+      processAnd(args);
+    }
+    pid = fork(); 
+    processFork(pid, args);
+  }
+  /*    // create the pipe 
+   if (pipe(fd) == -1) {
+     fprintf(stderr,"Pipe failed");
+     return 1;
+   }
+ 
+   // fork a child process 
+   pid = fork();
+ 
+   if (pid < 0) { // error occurred 
+     fprintf(stderr, "Fork Failed");
+     return 1;
+   }
+ 
+   if (pid > 0) { // parent process 
+     // close the unused end of the pipe 
+     close(fd[READ_END]);
+ 
+     // write to the pipe 
+     write(fd[WRITE_END], write_msg, strlen(write_msg)+1);
+ 
+     // close the write end of the pipe 
+     close(fd[WRITE_END]);
+   }
+   else { // child process 
+     // close the unused end of the pipe 
+     close(fd[WRITE_END]);
+ 
+     // read from the pipe 
+     read(fd[READ_END], read_msg, BUFFER_SIZE);
+     printf("read %s",read_msg);
+ 
+     // close the read end of the pipe 
+     close(fd[READ_END]);
+   }*/
+  return 0;
 }
