@@ -36,7 +36,7 @@ char hist[MAX_LINE],hist2[MAX_LINE]; //History used when typing  !!.
  * 
  */ 
 void setFlags(char *params){
-	 if(strcmp(params,">") == 0) { //Verify if param is >
+  if(strcmp(params,">") == 0) { //Verify if param is >
 		isGreater = true; 
 	}else if(strcmp(params,"&") == 0){//Verify if param is &
 		 isAnd = true; 
